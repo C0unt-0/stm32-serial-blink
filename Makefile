@@ -8,6 +8,7 @@ SIZE := arm-none-eabi-size
 HOST_CXX ?= g++
 
 CPU_FLAGS := -mcpu=cortex-m4 -mthumb
+
 CXXFLAGS := $(CPU_FLAGS) \
             -std=c++17 \
             -ffreestanding \
@@ -34,13 +35,17 @@ OBJECTS := $(patsubst %.cpp,$(BUILD_DIR)/%.o,$(SOURCES))
 DEPS := $(OBJECTS:.o=.d)
 
 HOST_FLAGS := -std=c++17 -Wall -Wextra -Werror -O2 -I.
+
 BUTTON_TEST := $(HOST_BUILD_DIR)/button_tests
 COMMAND_TEST := $(HOST_BUILD_DIR)/command_processor_tests
 
-.PHONY: all clean flash test check-layout
+.PHONY: all build-flash clean flash test check-layout
 
 all: check-layout $(BUILD_DIR)/$(PROJECT).elf $(BUILD_DIR)/$(PROJECT).bin
 	$(SIZE) $(BUILD_DIR)/$(PROJECT).elf
+
+build-flash: all flash
+	@echo "Firmware built and flashed successfully."
 
 $(BUILD_DIR)/$(PROJECT).elf: $(OBJECTS) linker/stm32f407.ld
 	@mkdir -p $(dir $@)

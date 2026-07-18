@@ -39,6 +39,7 @@ private:
     bool blink_phase_on_ = false;
 
     uint32_t press_count_ = 0;
+    uint32_t last_press_time_ms_ = 0;
 };
 
 }

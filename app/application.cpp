@@ -37,19 +37,19 @@ void Application::run_once(uint32_t now_ms)
     if (button_.pressed_event(now_ms)) {
 
 
-        uint32_t elapsed = now_ms - last_press_time_ms_;
+        volatile uint32_t elapsed = now_ms - last_press_time_ms_;
 
-        if (elapsed <=1000 && elapsed > 0)
+        if (elapsed <=2000 && elapsed > 0)
         {
             uart_.write("second press detected\n");
             start_blink(now_ms);
         }
         
         ++press_count_;
-        uart_.write(press_count_);
-        uart_.write("\n");
-        cancel_blink();
-        led_.toggle();
+        // uart_.write(press_count_);
+        // uart_.write("\n");
+        // cancel_blink();
+        // led_.toggle();
         last_press_time_ms_ = now_ms;
 
     }

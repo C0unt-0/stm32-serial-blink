@@ -8,7 +8,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This program built for i386-apple-darwin11.3.0
  
 
-# Make data base, printed on Sat Jul 18 23:56:50 2026
+# Make data base, printed on Sun Jul 19 01:00:58 2026
 
 # Variables
 
@@ -21,12 +21,11 @@ VSCODE_CRASH_REPORTER_PROCESS_TYPE = extensionHost
 # automatic
 ?D = $(patsubst %/,%,$(dir $?))
 # automatic
- 
 @D = $(patsubst %/,%,$(dir $@))
 # automatic
 @F = $(notdir $@)
 # makefile
-CURDIR := /Users/pubudunawarathna/Downloads/stm32f407-layered-cpp-firmware 2
+CURDIR := /Users/pubudunawarathna/Dev/stm32-serial-blink
 # makefile
 SHELL = /bin/sh
 # environment
@@ -35,21 +34,23 @@ VSCODE_NLS_CONFIG = {"userLocale":"en-gb","osLocale":"en-my","resolvedLanguage":
 _ = /usr/bin/make
 # makefile (from `build/startup/vectors.d', line 1)
 MAKEFILE_LIST :=  Makefile build/app/application.d build/app/command_processor.d build/app/main.d build/bsp/board.d build/drivers/button/button.d build/drivers/button/button_debouncer.d build/drivers/gpio/gpio.d build/drivers/led/led.d build/drivers/uart/uart.d build/platform/stm32f407/registers.d build/platform/stm32f407/system.d build/startup/startup.d build/startup/vectors.d
-# makefile (from `Makefile', line 32)
+# makefile (from `Makefile', line 33)
 SOURCES := app/application.cpp app/command_processor.cpp app/main.cpp bsp/board.cpp drivers/button/button.cpp drivers/button/button_debouncer.cpp drivers/gpio/gpio.cpp drivers/led/led.cpp drivers/uart/uart.cpp platform/stm32f407/registers.cpp platform/stm32f407/system.cpp startup/startup.cpp startup/vectors.cpp
-# makefile (from `Makefile', line 11)
+# makefile (from `Makefile', line 12)
 CXXFLAGS := -mcpu=cortex-m4 -mthumb -std=c++17 -ffreestanding -fno-exceptions -fno-rtti -fno-threadsafe-statics -fno-use-cxa-atexit -fno-unwind-tables -fno-asynchronous-unwind-tables -fdata-sections -ffunction-sections -Wall -Wextra -Werror -O2 -g3 -I.
 # environment
 __CFBundleIdentifier = com.microsoft.VSCode
 # environment
 VSCODE_CWD = /
 # environment
-PATH = /usr/bin:/bin:/usr/sbin:/sbin
+PATH = /usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin
+# environment
+VSCODE_DOTNET_INSTALL_TOOL_ORIGINAL_HOME = /Users/pubudunawarathna
 # makefile (from `Makefile', line 1)
 PROJECT := firmware
 # environment
 ELECTRON_RUN_AS_NODE = 1
-# makefile (from `Makefile', line 26)
+# makefile (from `Makefile', line 27)
 LDFLAGS := -mcpu=cortex-m4 -mthumb -nostdlib -Wl,--gc-sections -Wl,-Map=build/firmware.map -Tlinker/stm32f407.ld
 # default
 .FEATURES := target-specific order-only second-expansion else-if archives jobserver check-symlink
@@ -59,12 +60,12 @@ SSH_AUTH_SOCK = /var/run/com.apple.launchd.gTZtaGxkMq/Listeners
 SIZE := arm-none-eabi-size
 # automatic
 %F = $(notdir $%)
-# makefile (from `Makefile', line 38)
+# makefile (from `Makefile', line 40)
 COMMAND_TEST := build-host/command_processor_tests
 # makefile (from `Makefile', line 10)
 CPU_FLAGS := -mcpu=cortex-m4 -mthumb
 # environment
-PWD = /Users/pubudunawarathna/Downloads/stm32f407-layered-cpp-firmware 2
+PWD = /Users/pubudunawarathna/Dev/stm32-serial-blink
 # environment
 OSLogRateLimit = 64
 # environment
@@ -92,6 +93,7 @@ MAKE = $(MAKE_COMMAND)
 # default
 MAKECMDGOALS := all
 # environment
+ 
 SHLVL = 1
 # environment
 VSCODE_ESM_ENTRYPOINT = vs/workbench/api/node/extensionHostProcess
@@ -125,15 +127,17 @@ MAKEFLAGS = Rrqp
 MFLAGS = -Rrqp
 # automatic
 *D = $(patsubst %/,%,$(dir $*))
-# makefile (from `Makefile', line 37)
+# makefile (from `Makefile', line 39)
 BUTTON_TEST := build-host/button_tests
 # environment
 XPC_SERVICE_NAME = application.com.microsoft.VSCode.1050837682.1050838343
 # automatic
 +D = $(patsubst %/,%,$(dir $+))
+# environment
+VSCODE_L10N_BUNDLE_LOCATION = 
 # automatic
 +F = $(notdir $+)
-# makefile (from `Makefile', line 36)
+# makefile (from `Makefile', line 37)
 HOST_FLAGS := -std=c++17 -Wall -Wextra -Werror -O2 -I.
 # environment
 __CF_USER_TEXT_ENCODING = 0x1F5:0x0:0x0
@@ -153,7 +157,7 @@ HOST_BUILD_DIR := build-host
 ^F = $(notdir $^)
 # makefile (from `Makefile', line 6)
 OBJCOPY := arm-none-eabi-objcopy
-# makefile (from `Makefile', line 34)
+# makefile (from `Makefile', line 35)
 DEPS := build/app/application.d build/app/command_processor.d build/app/main.d build/bsp/board.d build/drivers/button/button.d build/drivers/button/button_debouncer.d build/drivers/gpio/gpio.d build/drivers/led/led.d build/drivers/uart/uart.d build/platform/stm32f407/registers.d build/platform/stm32f407/system.d build/startup/startup.d build/startup/vectors.d
 # default
 SUFFIXES := 
@@ -161,14 +165,14 @@ SUFFIXES :=
 .INCLUDE_DIRS = /usr/local/include
 # environment
 MAKELEVEL := 0
-# makefile (from `Makefile', line 33)
+# makefile (from `Makefile', line 34)
 OBJECTS := build/app/application.o build/app/command_processor.o build/app/main.o build/bsp/board.o build/drivers/button/button.o build/drivers/button/button_debouncer.o build/drivers/gpio/gpio.o build/drivers/led/led.o build/drivers/uart/uart.o build/platform/stm32f407/registers.o build/platform/stm32f407/system.o build/startup/startup.o build/startup/vectors.o
 # environment
 LANG = C
 # environment
 VSCODE_PID = 2201
 # variable set hash-table stats:
-# Load=77/1024=8%, Rehash=0, Collisions=2/160=1%
+# Load=79/1024=8%, Rehash=0, Collisions=2/162=1%
 
 # Pattern-specific Variable Values
 
@@ -176,14 +180,14 @@ VSCODE_PID = 2201
 
 # Directories
 
-# . (device 16777232, inode 1052745750): 20 files, no impossibilities.
+# . (device 16777232, inode 1052761110): 21 files, no impossibilities.
 
-# 20 files, no impossibilities in 1 directories.
+# 21 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
 build/%.o: %.cpp
-#  commands to execute (from `Makefile', line 53):
+#  commands to execute (from `Makefile', line 58):
 	@mkdir -p $(dir $@)
 	$(CXX) $(CXXFLAGS) -MMD -MP -c $< -o $@
 	
@@ -192,7 +196,6 @@ build/%.o: %.cpp
 
 # Files
 
- 
 bsp/board_config.hpp:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
@@ -207,7 +210,7 @@ build/firmware.bin: build/firmware.elf
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  commands to execute (from `Makefile', line 50):
+#  commands to execute (from `Makefile', line 55):
 	$(OBJCOPY) -O binary $< $@
 	
 
@@ -215,7 +218,7 @@ build/firmware.bin: build/firmware.elf
 build/app/main.d:
 #  A default, MAKEFILES, or -include/sinclude makefile.
 #  Implicit rule search has been done.
-#  Last modified 2026-07-18 23:04:40
+#  Last modified 2026-07-19 00:01:18
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -230,7 +233,7 @@ all: check-layout build/firmware.elf build/firmware.bin
 #  Needs to be updated (-q is set).
 # variable set hash-table stats:
 # Load=0/32=0%, Rehash=0, Collisions=0/2=0%
-#  commands to execute (from `Makefile', line 43):
+#  commands to execute (from `Makefile', line 45):
 	$(SIZE) $(BUILD_DIR)/$(PROJECT).elf
 	
 
@@ -240,7 +243,7 @@ bsp/board.cpp:
 #  Modification time never checked.
 #  File has not been updated.
 
-.PHONY: all clean flash test check-layout
+.PHONY: all build-flash clean flash test check-layout
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
@@ -249,7 +252,7 @@ bsp/board.cpp:
 build/app/application.d:
 #  A default, MAKEFILES, or -include/sinclude makefile.
 #  Implicit rule search has been done.
-#  Last modified 2026-07-18 23:10:35
+#  Last modified 2026-07-19 00:58:49
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -281,7 +284,7 @@ bsp/board.hpp:
 build/app/command_processor.d:
 #  A default, MAKEFILES, or -include/sinclude makefile.
 #  Implicit rule search has been done.
-#  Last modified 2026-07-18 21:50:17
+#  Last modified 2026-07-18 23:57:13
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -290,7 +293,7 @@ build/app/command_processor.d:
 # Not a target:
 Makefile:
 #  Implicit rule search has been done.
-#  Last modified 2026-07-18 23:22:57
+#  Last modified 2026-07-19 00:05:10
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -324,7 +327,7 @@ drivers/uart/uart.cpp:
 build/drivers/button/button_debouncer.d:
 #  A default, MAKEFILES, or -include/sinclude makefile.
 #  Implicit rule search has been done.
-#  Last modified 2026-07-18 21:50:18
+#  Last modified 2026-07-18 23:57:26
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -335,7 +338,7 @@ test: build-host/button_tests build-host/command_processor_tests
 #  Implicit rule search has not been done.
 #  File does not exist.
 #  File has not been updated.
-#  commands to execute (from `Makefile', line 65):
+#  commands to execute (from `Makefile', line 70):
 	$(BUTTON_TEST)
 	$(COMMAND_TEST)
 	@echo "Host tests passed."
@@ -361,13 +364,19 @@ drivers/button/button.cpp:
 build/drivers/uart/uart.d:
 #  A default, MAKEFILES, or -include/sinclude makefile.
 #  Implicit rule search has been done.
-#  Last modified 2026-07-18 23:04:40
+#  Last modified 2026-07-18 23:57:26
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
 # Load=0/32=0%, Rehash=0, Collisions=0/0=0%
 
 platform/stm32f407/system.hpp:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+startup/vectors.cpp:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
@@ -383,7 +392,6 @@ platform/stm32f407/registers.cpp:
 #  Modification time never checked.
 #  File has not been updated.
 
- 
 build/app/application.o: app/application.cpp app/application.hpp app/command_processor.hpp drivers/button/button.hpp drivers/button/button_debouncer.hpp drivers/gpio/gpio.hpp drivers/led/led.hpp drivers/uart/uart.hpp platform/stm32f407/registers.hpp config/firmware_config.hpp
 #  Implicit rule search has not been done.
 #  Modification time never checked.
@@ -393,7 +401,7 @@ build/app/application.o: app/application.cpp app/application.hpp app/command_pro
 build/drivers/button/button.d:
 #  A default, MAKEFILES, or -include/sinclude makefile.
 #  Implicit rule search has been done.
-#  Last modified 2026-07-18 21:50:18
+#  Last modified 2026-07-18 23:57:26
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -406,6 +414,7 @@ drivers/led/led.cpp:
 #  File has not been updated.
 
 # Not a target:
+ 
 linker/stm32f407.ld:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
@@ -453,7 +462,7 @@ platform/stm32f407/registers.hpp:
 build/drivers/led/led.d:
 #  A default, MAKEFILES, or -include/sinclude makefile.
 #  Implicit rule search has been done.
-#  Last modified 2026-07-18 21:50:18
+#  Last modified 2026-07-18 23:57:26
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -463,7 +472,7 @@ build/drivers/led/led.d:
 build/startup/vectors.d:
 #  A default, MAKEFILES, or -include/sinclude makefile.
 #  Implicit rule search has been done.
-#  Last modified 2026-07-18 21:50:18
+#  Last modified 2026-07-18 23:57:26
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -473,7 +482,7 @@ build/startup/vectors.d:
 build/startup/startup.d:
 #  A default, MAKEFILES, or -include/sinclude makefile.
 #  Implicit rule search has been done.
-#  Last modified 2026-07-18 21:50:18
+#  Last modified 2026-07-18 23:57:26
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -488,7 +497,7 @@ drivers/led/led.hpp:
 build/drivers/gpio/gpio.d:
 #  A default, MAKEFILES, or -include/sinclude makefile.
 #  Implicit rule search has been done.
-#  Last modified 2026-07-18 21:50:18
+#  Last modified 2026-07-18 23:57:26
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -499,7 +508,7 @@ clean:
 #  Implicit rule search has not been done.
 #  File does not exist.
 #  File has not been updated.
-#  commands to execute (from `Makefile', line 85):
+#  commands to execute (from `Makefile', line 90):
 	rm -rf $(BUILD_DIR) $(HOST_BUILD_DIR)
 	
 
@@ -507,7 +516,7 @@ build/firmware.elf: build/app/application.o build/app/command_processor.o build/
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  commands to execute (from `Makefile', line 46):
+#  commands to execute (from `Makefile', line 51):
 	@mkdir -p $(dir $@)
 	$(CXX) $(OBJECTS) $(LDFLAGS) -o $@
 	
@@ -516,7 +525,7 @@ build/firmware.elf: build/app/application.o build/app/command_processor.o build/
 build/bsp/board.d:
 #  A default, MAKEFILES, or -include/sinclude makefile.
 #  Implicit rule search has been done.
-#  Last modified 2026-07-18 23:04:40
+#  Last modified 2026-07-18 23:57:26
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -524,7 +533,6 @@ build/bsp/board.d:
 
 drivers/gpio/gpio.hpp:
 #  Implicit rule search has not been done.
- 
 #  Modification time never checked.
 #  File has not been updated.
 
@@ -548,7 +556,7 @@ build/drivers/uart/uart.o: drivers/uart/uart.cpp drivers/uart/uart.hpp drivers/g
 build/platform/stm32f407/system.d:
 #  A default, MAKEFILES, or -include/sinclude makefile.
 #  Implicit rule search has been done.
-#  Last modified 2026-07-18 21:50:18
+#  Last modified 2026-07-18 23:57:26
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -556,9 +564,10 @@ build/platform/stm32f407/system.d:
 
 build-host/button_tests: tests/button_tests.cpp drivers/button/button_debouncer.cpp
 #  Implicit rule search has not been done.
+ 
 #  Modification time never checked.
 #  File has not been updated.
-#  commands to execute (from `Makefile', line 57):
+#  commands to execute (from `Makefile', line 62):
 	@mkdir -p $(dir $@)
 	$(HOST_CXX) $(HOST_FLAGS) $^ -o $@
 	
@@ -567,7 +576,7 @@ build-host/command_processor_tests: tests/command_processor_tests.cpp app/comman
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  commands to execute (from `Makefile', line 61):
+#  commands to execute (from `Makefile', line 66):
 	@mkdir -p $(dir $@)
 	$(HOST_CXX) $(HOST_FLAGS) $^ -o $@
 	
@@ -580,9 +589,7 @@ app/command_processor.cpp:
 
 build/drivers/button/button.o: drivers/button/button.cpp drivers/button/button.hpp drivers/button/button_debouncer.hpp drivers/gpio/gpio.hpp
 #  Implicit rule search has not been done.
- 
 #  Modification time never checked.
- 
 #  File has not been updated.
 
 flash: build/firmware.elf
@@ -590,7 +597,7 @@ flash: build/firmware.elf
 #  Implicit rule search has not been done.
 #  File does not exist.
 #  File has not been updated.
-#  commands to execute (from `Makefile', line 80):
+#  commands to execute (from `Makefile', line 85):
 	openocd -f interface/stlink.cfg \
 	-f target/stm32f4x.cfg \
 	-c "program $< verify reset exit"
@@ -601,11 +608,14 @@ app/application.hpp:
 #  Modification time never checked.
 #  File has not been updated.
 
-# Not a target:
-startup/vectors.cpp:
+build-flash: all flash
+#  Phony target (prerequisite of .PHONY).
 #  Implicit rule search has not been done.
-#  Modification time never checked.
+#  File does not exist.
 #  File has not been updated.
+#  commands to execute (from `Makefile', line 48):
+	@echo "Firmware built and flashed successfully."
+	
 
 # Not a target:
 startup/startup.cpp:
@@ -617,7 +627,7 @@ startup/startup.cpp:
 build/platform/stm32f407/registers.d:
 #  A default, MAKEFILES, or -include/sinclude makefile.
 #  Implicit rule search has been done.
-#  Last modified 2026-07-18 21:50:18
+#  Last modified 2026-07-18 23:57:26
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -628,6 +638,7 @@ check-layout:
 #  Implicit rule search has not been done.
 #  Implicit/static pattern stem: `'
 #  File does not exist.
+ 
 #  File has been updated.
 #  Needs to be updated (-q is set).
 # automatic
@@ -648,7 +659,7 @@ check-layout:
 # ? := 
 # variable set hash-table stats:
 # Load=8/32=25%, Rehash=0, Collisions=1/10=10%
-#  commands to execute (from `Makefile', line 70):
+#  commands to execute (from `Makefile', line 75):
 	@test -f app/application.cpp
 	@test -f bsp/board_config.hpp
 	@test -f drivers/button/button.cpp
@@ -690,7 +701,8 @@ build/bsp/board.o: bsp/board.cpp bsp/board.hpp drivers/button/button.hpp drivers
 #  File has not been updated.
 
 # files hash-table stats:
-# Load=67/1024=7%, Rehash=0, Collisions=4/213=2%
+# Load=68/1024=7%, Rehash=0, Collisions=6/217=3%
+ 
 # VPATH Search Paths
 
 # No `vpath' search paths.
@@ -702,6 +714,6 @@ build/bsp/board.o: bsp/board.cpp bsp/board.hpp drivers/button/button.hpp drivers
 # strcache size: total = 4096 / max = 4096 / min = 4096 / avg = 4096
 # strcache free: total = 3733 / max = 3733 / min = 3733 / avg = 3733
 
-# Finished Make data base on Sat Jul 18 23:56:50 2026
+# Finished Make data base on Sun Jul 19 01:00:58 2026
 
  

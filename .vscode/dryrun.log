@@ -1,5 +1,5 @@
 make --dry-run --always-make --keep-going --print-directory
-make: Entering directory `/Users/pubudunawarathna/Downloads/stm32f407-layered-cpp-firmware 2'
+make: Entering directory `/Users/pubudunawarathna/Dev/stm32-serial-blink'
 test -f app/application.cpp
 test -f bsp/board_config.hpp
 test -f drivers/button/button.cpp
@@ -7,16 +7,21 @@ test -f drivers/led/led.cpp
 test -f drivers/uart/uart.cpp
 test -f platform/stm32f407/registers.cpp
 test -f startup/vectors.cpp
+ 
 echo "Layered project layout check passed."
  
 mkdir -p build/app/
 arm-none-eabi-g++ -mcpu=cortex-m4 -mthumb -std=c++17 -ffreestanding -fno-exceptions -fno-rtti -fno-threadsafe-statics -fno-use-cxa-atexit -fno-unwind-tables -fno-asynchronous-unwind-tables -fdata-sections -ffunction-sections -Wall -Wextra -Werror -O2 -g3 -I. -MMD -MP -c app/application.cpp -o build/app/application.o
+ 
 mkdir -p build/app/
 arm-none-eabi-g++ -mcpu=cortex-m4 -mthumb -std=c++17 -ffreestanding -fno-exceptions -fno-rtti -fno-threadsafe-statics -fno-use-cxa-atexit -fno-unwind-tables -fno-asynchronous-unwind-tables -fdata-sections -ffunction-sections -Wall -Wextra -Werror -O2 -g3 -I. -MMD -MP -c app/command_processor.cpp -o build/app/command_processor.o
+ 
 mkdir -p build/app/
 arm-none-eabi-g++ -mcpu=cortex-m4 -mthumb -std=c++17 -ffreestanding -fno-exceptions -fno-rtti -fno-threadsafe-statics -fno-use-cxa-atexit -fno-unwind-tables -fno-asynchronous-unwind-tables -fdata-sections -ffunction-sections -Wall -Wextra -Werror -O2 -g3 -I. -MMD -MP -c app/main.cpp -o build/app/main.o
+ 
 mkdir -p build/bsp/
 arm-none-eabi-g++ -mcpu=cortex-m4 -mthumb -std=c++17 -ffreestanding -fno-exceptions -fno-rtti -fno-threadsafe-statics -fno-use-cxa-atexit -fno-unwind-tables -fno-asynchronous-unwind-tables -fdata-sections -ffunction-sections -Wall -Wextra -Werror -O2 -g3 -I. -MMD -MP -c bsp/board.cpp -o build/bsp/board.o
+ 
 mkdir -p build/drivers/button/
 arm-none-eabi-g++ -mcpu=cortex-m4 -mthumb -std=c++17 -ffreestanding -fno-exceptions -fno-rtti -fno-threadsafe-statics -fno-use-cxa-atexit -fno-unwind-tables -fno-asynchronous-unwind-tables -fdata-sections -ffunction-sections -Wall -Wextra -Werror -O2 -g3 -I. -MMD -MP -c drivers/button/button.cpp -o build/drivers/button/button.o
 mkdir -p build/drivers/button/
@@ -29,6 +34,7 @@ mkdir -p build/drivers/uart/
 arm-none-eabi-g++ -mcpu=cortex-m4 -mthumb -std=c++17 -ffreestanding -fno-exceptions -fno-rtti -fno-threadsafe-statics -fno-use-cxa-atexit -fno-unwind-tables -fno-asynchronous-unwind-tables -fdata-sections -ffunction-sections -Wall -Wextra -Werror -O2 -g3 -I. -MMD -MP -c drivers/uart/uart.cpp -o build/drivers/uart/uart.o
 mkdir -p build/platform/stm32f407/
 arm-none-eabi-g++ -mcpu=cortex-m4 -mthumb -std=c++17 -ffreestanding -fno-exceptions -fno-rtti -fno-threadsafe-statics -fno-use-cxa-atexit -fno-unwind-tables -fno-asynchronous-unwind-tables -fdata-sections -ffunction-sections -Wall -Wextra -Werror -O2 -g3 -I. -MMD -MP -c platform/stm32f407/registers.cpp -o build/platform/stm32f407/registers.o
+ 
 mkdir -p build/platform/stm32f407/
 arm-none-eabi-g++ -mcpu=cortex-m4 -mthumb -std=c++17 -ffreestanding -fno-exceptions -fno-rtti -fno-threadsafe-statics -fno-use-cxa-atexit -fno-unwind-tables -fno-asynchronous-unwind-tables -fdata-sections -ffunction-sections -Wall -Wextra -Werror -O2 -g3 -I. -MMD -MP -c platform/stm32f407/system.cpp -o build/platform/stm32f407/system.o
 mkdir -p build/startup/
@@ -38,7 +44,8 @@ arm-none-eabi-g++ -mcpu=cortex-m4 -mthumb -std=c++17 -ffreestanding -fno-excepti
  
 mkdir -p build/
 arm-none-eabi-g++ build/app/application.o build/app/command_processor.o build/app/main.o build/bsp/board.o build/drivers/button/button.o build/drivers/button/button_debouncer.o build/drivers/gpio/gpio.o build/drivers/led/led.o build/drivers/uart/uart.o build/platform/stm32f407/registers.o build/platform/stm32f407/system.o build/startup/startup.o build/startup/vectors.o -mcpu=cortex-m4 -mthumb -nostdlib -Wl,--gc-sections -Wl,-Map=build/firmware.map -Tlinker/stm32f407.ld -o build/firmware.elf
+ 
 arm-none-eabi-objcopy -O binary build/firmware.elf build/firmware.bin
 arm-none-eabi-size build/firmware.elf
-make: Leaving directory `/Users/pubudunawarathna/Downloads/stm32f407-layered-cpp-firmware 2'
+make: Leaving directory `/Users/pubudunawarathna/Dev/stm32-serial-blink'
  

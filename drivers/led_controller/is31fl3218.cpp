@@ -2,7 +2,7 @@
 
 namespace {
 
-constexpr uint8_t device_address = 0x54U;
+constexpr uint8_t device_address = 0x5BU;
 
 constexpr uint8_t shutdown_register = 0x00U;
 constexpr uint8_t first_pwm_register = 0x01U;
@@ -70,6 +70,36 @@ bool Is31fl3218::on()
 bool Is31fl3218::off()
 {
     return write(shutdown_register, shutdown);
+}
+
+bool Is31fl3218::set_channel(
+    uint8_t channel,
+    uint8_t brightness)
+{
+    if (channel >= 18U) {
+        return false;
+    }
+
+    const uint8_t pwm_register =
+        static_cast<uint8_t>(
+            first_pwm_register + channel);
+
+    return
+        write(pwm_register, brightness) &&
+        write(update_register, 0U);
+}
+
+bool Is31fl3218::clear_all()
+{
+    for (uint8_t reg = first_pwm_register;
+         reg <= last_pwm_register;
+         ++reg) {
+        if (!write(reg, 0U)) {
+            return false;
+        }
+    }
+
+    return write(update_register, 0U);
 }
 
 }

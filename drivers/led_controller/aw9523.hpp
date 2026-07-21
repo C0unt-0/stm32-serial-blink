@@ -6,22 +6,20 @@
 
 namespace drivers {
 
-class Is31fl3218 final {
+class Aw9523 final {
 public:
-    explicit constexpr Is31fl3218(I2c &i2c)
+    explicit constexpr Aw9523(I2c &i2c)
         : i2c_(i2c)
     {
     }
 
-    bool initialize(uint8_t brightness);
-    bool on();
-    bool off();
+    bool initialize();
+
+    bool clear_all();
 
     bool set_channel(
         uint8_t channel,
         uint8_t brightness);
-
-    bool clear_all();
 
 private:
     bool write(
@@ -31,4 +29,4 @@ private:
     I2c &i2c_;
 };
 
-}
+} // namespace drivers

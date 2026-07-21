@@ -18,4 +18,10 @@ inline constexpr uint32_t led_blink_count = 5U;
 inline constexpr uint32_t led_on_time_ms = 250U;
 inline constexpr uint32_t led_off_time_ms = 250U;
 
+inline constexpr uint32_t apb1_clock_hz =
+    system_clock_hz;
+
+inline constexpr uint32_t i2c_timeout_iterations =
+    100'000U;
+
 }

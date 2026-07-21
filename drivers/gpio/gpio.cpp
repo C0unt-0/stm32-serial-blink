@@ -87,7 +87,10 @@ void Gpio::configure_input(Pull pull) const
         (static_cast<uint32_t>(pull) << mode_shift);
 }
 
-void Gpio::configure_alternate(uint8_t alternate_function) const
+// check the posibility to do a overload
+void Gpio::configure_alternate(
+    uint8_t alternate_function,
+    OutputType output_type) const
 {
     if (!pin_is_valid(pin_) || alternate_function > 15U) {
         return;
@@ -97,19 +100,29 @@ void Gpio::configure_alternate(uint8_t alternate_function) const
 
     platform::stm32f407::GpioRegisters *const gpio =
         registers(pin_.port);
+
     const uint32_t pin_index = pin_.number;
     const uint32_t mode_shift = pin_index * 2U;
     const uint32_t af_register_index = pin_index / 8U;
     const uint32_t af_shift = (pin_index % 8U) * 4U;
 
-    gpio->OTYPER &= ~bit_mask(pin_index);
+    if (output_type == OutputType::OpenDrain) {
+        gpio->OTYPER |= bit_mask(pin_index);
+    } else {
+        gpio->OTYPER &= ~bit_mask(pin_index);
+    }
+
     gpio->OSPEEDR =
         (gpio->OSPEEDR & ~two_bit_mask(mode_shift)) |
         (2UL << mode_shift);
+
     gpio->PUPDR &= ~two_bit_mask(mode_shift);
+
     gpio->AFR[af_register_index] =
-        (gpio->AFR[af_register_index] & ~four_bit_mask(af_shift)) |
+        (gpio->AFR[af_register_index] &
+         ~four_bit_mask(af_shift)) |
         (static_cast<uint32_t>(alternate_function) << af_shift);
+
     gpio->MODER =
         (gpio->MODER & ~two_bit_mask(mode_shift)) |
         (2UL << mode_shift);

@@ -46,6 +46,18 @@ struct UsartRegisters {
     volatile uint32_t GTPR;
 };
 
+struct I2cRegisters {
+    volatile uint32_t CR1;
+    volatile uint32_t CR2;
+    volatile uint32_t OAR1;
+    volatile uint32_t OAR2;
+    volatile uint32_t DR;
+    volatile uint32_t SR1;
+    volatile uint32_t SR2;
+    volatile uint32_t CCR;
+    volatile uint32_t TRISE;
+};
+
 struct SysTickRegisters {
     volatile uint32_t CTRL;
     volatile uint32_t LOAD;
@@ -59,9 +71,18 @@ struct UsartPeripheral {
     uint32_t clock_enable_mask;
 };
 
+struct I2cPeripheral {
+    I2cRegisters *registers;
+    volatile uint32_t *clock_enable_register;
+    volatile uint32_t *reset_register;
+    uint32_t clock_enable_mask;
+    uint32_t reset_mask;
+};
+
 GpioRegisters *gpio_registers(uint32_t port_number);
 RccRegisters *rcc_registers();
 SysTickRegisters *systick_registers();
 UsartPeripheral usart1();
+I2cPeripheral i2c2();
 
 }

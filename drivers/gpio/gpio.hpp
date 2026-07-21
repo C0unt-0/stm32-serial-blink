@@ -27,6 +27,11 @@ enum class Pull : uint8_t {
     Down = 2U
 };
 
+enum class OutputType : uint8_t {
+    PushPull = 0U,
+    OpenDrain = 1U
+};
+
 struct Pin {
     Port port;
     uint8_t number;
@@ -38,11 +43,19 @@ public:
 
     void configure_output(Level initial_level) const;
     void configure_input(Pull pull) const;
-    void configure_alternate(uint8_t alternate_function) const;
+
+    void configure_alternate(
+        uint8_t alternate_function,
+        OutputType output_type = OutputType::PushPull) const;
+
     void write(Level level) const;
     Level read_input() const;
     Level read_output() const;
-    Pin pin() const { return pin_; }
+
+    constexpr Pin pin() const
+    {
+        return pin_;
+    }
 
 private:
     Pin pin_;

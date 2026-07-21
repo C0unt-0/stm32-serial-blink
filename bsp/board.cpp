@@ -35,4 +35,24 @@ drivers::Uart make_console_uart()
     };
 }
 
+drivers::I2c make_led_board_i2c()
+{
+    return drivers::I2c{
+        platform::stm32f407::i2c2(),
+        board_config::led_board_i2c_scl_pin,
+        board_config::led_board_i2c_sda_pin,
+        board_config::led_board_i2c_alternate_function,
+        config::apb1_clock_hz,
+        board_config::led_board_i2c_frequency_hz,
+        config::i2c_timeout_iterations
+    };
+}
+
+drivers::gpio::Gpio make_led_board_shutdown()
+{
+    return drivers::gpio::Gpio{
+        board_config::led_board_reset_pin
+    };
+}
+
 }

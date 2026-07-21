@@ -9,6 +9,9 @@ constexpr uintptr_t usart1_base_address = 0x40011000UL;
 constexpr uintptr_t systick_base_address = 0xE000E010UL;
 constexpr uint32_t usart1_clock_enable_mask = 1UL << 4U;
 
+constexpr uintptr_t i2c2_base_address = 0x40005800UL;
+constexpr uint32_t i2c2_clock_enable_mask = 1UL << 22U;
+
 }
 
 namespace platform::stm32f407 {
@@ -40,6 +43,19 @@ UsartPeripheral usart1()
         reinterpret_cast<UsartRegisters *>(usart1_base_address),
         &rcc->APB2ENR,
         usart1_clock_enable_mask
+    };
+}
+
+I2cPeripheral i2c2()
+{
+    RccRegisters *const rcc = rcc_registers();
+
+    return {
+        reinterpret_cast<I2cRegisters *>(i2c2_base_address),
+        &rcc->APB1ENR,
+        &rcc->APB1RSTR,
+        i2c2_clock_enable_mask,
+        i2c2_clock_enable_mask
     };
 }
 

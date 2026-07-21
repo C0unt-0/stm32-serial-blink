@@ -12,8 +12,16 @@ constexpr uint32_t usart_enable = 1UL << 13U;
 
 namespace drivers {
 
-void Uart::initialize()
+bool Uart::initialize()
 {
+    if (hardware_.registers == nullptr ||
+        hardware_.clock_enable_register == nullptr ||
+        hardware_.clock_enable_mask == 0U ||
+        alternate_function_ > 15U ||
+        baud_rate_register_ == 0U) {
+        return false;
+    }
+
     tx_.configure_alternate(alternate_function_);
     rx_.configure_alternate(alternate_function_);
 
@@ -26,6 +34,8 @@ void Uart::initialize()
     uart->CR3 = 0U;
     uart->BRR = baud_rate_register_;
     uart->CR1 = transmitter_enable | receiver_enable | usart_enable;
+
+    return true;
 }
 
 bool Uart::try_read(char &character) const

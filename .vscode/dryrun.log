@@ -1,32 +1,46 @@
 make --dry-run --always-make --keep-going --print-directory
-make: Entering directory '/Users/pubudunawarathna/Dev/stm32-serial-blink'
- 
+make: Entering directory '/Users/pubudunawarathna/Downloads/stm32-refactored'
 test -f app/application.cpp
-test -f bsp/board_config.hpp
-test -f drivers/button/button.cpp
-test -f drivers/led/led.cpp
-test -f drivers/uart/uart.cpp
+test -f app/animations/rainbow_animation.cpp
+test -f app/commands/command_catalog.hpp
+test -f app/input/double_press_detector.hpp
+test -f bsp/board.cpp
+test -f devices/external_led_board.cpp
+test -f drivers/i2c/i2c.cpp
 test -f platform/stm32f407/registers.cpp
 test -f startup/vectors.cpp
 echo "Layered project layout check passed."
  
+mkdir -p build/app/animations/
+arm-none-eabi-g++ -mcpu=cortex-m4 -mthumb -std=c++17 -ffreestanding -fno-exceptions -fno-rtti -fno-threadsafe-statics -fno-use-cxa-atexit -fno-unwind-tables -fno-asynchronous-unwind-tables -fdata-sections -ffunction-sections -Wall -Wextra -Werror -O2 -g3 -I. -MMD -MP -c app/animations/rainbow_animation.cpp -o build/app/animations/rainbow_animation.o
+mkdir -p build/app/animations/
+arm-none-eabi-g++ -mcpu=cortex-m4 -mthumb -std=c++17 -ffreestanding -fno-exceptions -fno-rtti -fno-threadsafe-statics -fno-use-cxa-atexit -fno-unwind-tables -fno-asynchronous-unwind-tables -fdata-sections -ffunction-sections -Wall -Wextra -Werror -O2 -g3 -I. -MMD -MP -c app/animations/status_led_controller.cpp -o build/app/animations/status_led_controller.o
 mkdir -p build/app/
 arm-none-eabi-g++ -mcpu=cortex-m4 -mthumb -std=c++17 -ffreestanding -fno-exceptions -fno-rtti -fno-threadsafe-statics -fno-use-cxa-atexit -fno-unwind-tables -fno-asynchronous-unwind-tables -fdata-sections -ffunction-sections -Wall -Wextra -Werror -O2 -g3 -I. -MMD -MP -c app/application.cpp -o build/app/application.o
-mkdir -p build/app/
-arm-none-eabi-g++ -mcpu=cortex-m4 -mthumb -std=c++17 -ffreestanding -fno-exceptions -fno-rtti -fno-threadsafe-statics -fno-use-cxa-atexit -fno-unwind-tables -fno-asynchronous-unwind-tables -fdata-sections -ffunction-sections -Wall -Wextra -Werror -O2 -g3 -I. -MMD -MP -c app/command_processor.cpp -o build/app/command_processor.o
- 
+mkdir -p build/app/commands/
+arm-none-eabi-g++ -mcpu=cortex-m4 -mthumb -std=c++17 -ffreestanding -fno-exceptions -fno-rtti -fno-threadsafe-statics -fno-use-cxa-atexit -fno-unwind-tables -fno-asynchronous-unwind-tables -fdata-sections -ffunction-sections -Wall -Wextra -Werror -O2 -g3 -I. -MMD -MP -c app/commands/command_processor.cpp -o build/app/commands/command_processor.o
+mkdir -p build/app/commands/
+arm-none-eabi-g++ -mcpu=cortex-m4 -mthumb -std=c++17 -ffreestanding -fno-exceptions -fno-rtti -fno-threadsafe-statics -fno-use-cxa-atexit -fno-unwind-tables -fno-asynchronous-unwind-tables -fdata-sections -ffunction-sections -Wall -Wextra -Werror -O2 -g3 -I. -MMD -MP -c app/commands/serial_console.cpp -o build/app/commands/serial_console.o
 mkdir -p build/app/
 arm-none-eabi-g++ -mcpu=cortex-m4 -mthumb -std=c++17 -ffreestanding -fno-exceptions -fno-rtti -fno-threadsafe-statics -fno-use-cxa-atexit -fno-unwind-tables -fno-asynchronous-unwind-tables -fdata-sections -ffunction-sections -Wall -Wextra -Werror -O2 -g3 -I. -MMD -MP -c app/main.cpp -o build/app/main.o
 mkdir -p build/bsp/
 arm-none-eabi-g++ -mcpu=cortex-m4 -mthumb -std=c++17 -ffreestanding -fno-exceptions -fno-rtti -fno-threadsafe-statics -fno-use-cxa-atexit -fno-unwind-tables -fno-asynchronous-unwind-tables -fdata-sections -ffunction-sections -Wall -Wextra -Werror -O2 -g3 -I. -MMD -MP -c bsp/board.cpp -o build/bsp/board.o
+mkdir -p build/devices/
+arm-none-eabi-g++ -mcpu=cortex-m4 -mthumb -std=c++17 -ffreestanding -fno-exceptions -fno-rtti -fno-threadsafe-statics -fno-use-cxa-atexit -fno-unwind-tables -fno-asynchronous-unwind-tables -fdata-sections -ffunction-sections -Wall -Wextra -Werror -O2 -g3 -I. -MMD -MP -c devices/external_led_board.cpp -o build/devices/external_led_board.o
 mkdir -p build/drivers/button/
 arm-none-eabi-g++ -mcpu=cortex-m4 -mthumb -std=c++17 -ffreestanding -fno-exceptions -fno-rtti -fno-threadsafe-statics -fno-use-cxa-atexit -fno-unwind-tables -fno-asynchronous-unwind-tables -fdata-sections -ffunction-sections -Wall -Wextra -Werror -O2 -g3 -I. -MMD -MP -c drivers/button/button.cpp -o build/drivers/button/button.o
 mkdir -p build/drivers/button/
 arm-none-eabi-g++ -mcpu=cortex-m4 -mthumb -std=c++17 -ffreestanding -fno-exceptions -fno-rtti -fno-threadsafe-statics -fno-use-cxa-atexit -fno-unwind-tables -fno-asynchronous-unwind-tables -fdata-sections -ffunction-sections -Wall -Wextra -Werror -O2 -g3 -I. -MMD -MP -c drivers/button/button_debouncer.cpp -o build/drivers/button/button_debouncer.o
 mkdir -p build/drivers/gpio/
 arm-none-eabi-g++ -mcpu=cortex-m4 -mthumb -std=c++17 -ffreestanding -fno-exceptions -fno-rtti -fno-threadsafe-statics -fno-use-cxa-atexit -fno-unwind-tables -fno-asynchronous-unwind-tables -fdata-sections -ffunction-sections -Wall -Wextra -Werror -O2 -g3 -I. -MMD -MP -c drivers/gpio/gpio.cpp -o build/drivers/gpio/gpio.o
+mkdir -p build/drivers/i2c/
+arm-none-eabi-g++ -mcpu=cortex-m4 -mthumb -std=c++17 -ffreestanding -fno-exceptions -fno-rtti -fno-threadsafe-statics -fno-use-cxa-atexit -fno-unwind-tables -fno-asynchronous-unwind-tables -fdata-sections -ffunction-sections -Wall -Wextra -Werror -O2 -g3 -I. -MMD -MP -c drivers/i2c/i2c.cpp -o build/drivers/i2c/i2c.o
 mkdir -p build/drivers/led/
 arm-none-eabi-g++ -mcpu=cortex-m4 -mthumb -std=c++17 -ffreestanding -fno-exceptions -fno-rtti -fno-threadsafe-statics -fno-use-cxa-atexit -fno-unwind-tables -fno-asynchronous-unwind-tables -fdata-sections -ffunction-sections -Wall -Wextra -Werror -O2 -g3 -I. -MMD -MP -c drivers/led/led.cpp -o build/drivers/led/led.o
+mkdir -p build/drivers/led_controller/
+arm-none-eabi-g++ -mcpu=cortex-m4 -mthumb -std=c++17 -ffreestanding -fno-exceptions -fno-rtti -fno-threadsafe-statics -fno-use-cxa-atexit -fno-unwind-tables -fno-asynchronous-unwind-tables -fdata-sections -ffunction-sections -Wall -Wextra -Werror -O2 -g3 -I. -MMD -MP -c drivers/led_controller/aw9523.cpp -o build/drivers/led_controller/aw9523.o
+mkdir -p build/drivers/led_controller/
+arm-none-eabi-g++ -mcpu=cortex-m4 -mthumb -std=c++17 -ffreestanding -fno-exceptions -fno-rtti -fno-threadsafe-statics -fno-use-cxa-atexit -fno-unwind-tables -fno-asynchronous-unwind-tables -fdata-sections -ffunction-sections -Wall -Wextra -Werror -O2 -g3 -I. -MMD -MP -c drivers/led_controller/is31fl3218.cpp -o build/drivers/led_controller/is31fl3218.o
 mkdir -p build/drivers/uart/
 arm-none-eabi-g++ -mcpu=cortex-m4 -mthumb -std=c++17 -ffreestanding -fno-exceptions -fno-rtti -fno-threadsafe-statics -fno-use-cxa-atexit -fno-unwind-tables -fno-asynchronous-unwind-tables -fdata-sections -ffunction-sections -Wall -Wextra -Werror -O2 -g3 -I. -MMD -MP -c drivers/uart/uart.cpp -o build/drivers/uart/uart.o
 mkdir -p build/platform/stm32f407/
@@ -37,9 +51,10 @@ mkdir -p build/startup/
 arm-none-eabi-g++ -mcpu=cortex-m4 -mthumb -std=c++17 -ffreestanding -fno-exceptions -fno-rtti -fno-threadsafe-statics -fno-use-cxa-atexit -fno-unwind-tables -fno-asynchronous-unwind-tables -fdata-sections -ffunction-sections -Wall -Wextra -Werror -O2 -g3 -I. -MMD -MP -c startup/startup.cpp -o build/startup/startup.o
 mkdir -p build/startup/
 arm-none-eabi-g++ -mcpu=cortex-m4 -mthumb -std=c++17 -ffreestanding -fno-exceptions -fno-rtti -fno-threadsafe-statics -fno-use-cxa-atexit -fno-unwind-tables -fno-asynchronous-unwind-tables -fdata-sections -ffunction-sections -Wall -Wextra -Werror -O2 -g3 -I. -MMD -MP -c startup/vectors.cpp -o build/startup/vectors.o
+ 
 mkdir -p build/
-arm-none-eabi-g++ build/app/application.o build/app/command_processor.o build/app/main.o build/bsp/board.o build/drivers/button/button.o build/drivers/button/button_debouncer.o build/drivers/gpio/gpio.o build/drivers/led/led.o build/drivers/uart/uart.o build/platform/stm32f407/registers.o build/platform/stm32f407/system.o build/startup/startup.o build/startup/vectors.o -mcpu=cortex-m4 -mthumb -nostdlib -Wl,--gc-sections -Wl,-Map=build/firmware.map -Tlinker/stm32f407.ld -o build/firmware.elf
+arm-none-eabi-g++ build/app/animations/rainbow_animation.o build/app/animations/status_led_controller.o build/app/application.o build/app/commands/command_processor.o build/app/commands/serial_console.o build/app/main.o build/bsp/board.o build/devices/external_led_board.o build/drivers/button/button.o build/drivers/button/button_debouncer.o build/drivers/gpio/gpio.o build/drivers/i2c/i2c.o build/drivers/led/led.o build/drivers/led_controller/aw9523.o build/drivers/led_controller/is31fl3218.o build/drivers/uart/uart.o build/platform/stm32f407/registers.o build/platform/stm32f407/system.o build/startup/startup.o build/startup/vectors.o -mcpu=cortex-m4 -mthumb -nostdlib -Wl,--gc-sections -Wl,-Map=build/firmware.map -Tlinker/stm32f407.ld -o build/firmware.elf
 arm-none-eabi-objcopy -O binary build/firmware.elf build/firmware.bin
 arm-none-eabi-size build/firmware.elf
-make: Leaving directory '/Users/pubudunawarathna/Dev/stm32-serial-blink'
+make: Leaving directory '/Users/pubudunawarathna/Downloads/stm32-refactored'
  

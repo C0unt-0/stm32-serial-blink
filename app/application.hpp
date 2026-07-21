@@ -1,45 +1,45 @@
 #pragma once
 
-#include "app/command_processor.hpp"
+#include "app/animations/rainbow_animation.hpp"
+#include "app/animations/status_led_controller.hpp"
+#include "app/commands/command.hpp"
+#include "app/commands/serial_console.hpp"
+#include "app/input/double_press_detector.hpp"
+#include "config/firmware_config.hpp"
 #include "drivers/button/button.hpp"
-#include "drivers/led/led.hpp"
-#include "drivers/uart/uart.hpp"
 
 #include <stdint.h>
-#include <cstdio>
 
 namespace app {
 
 class Application final {
 public:
     Application(
-        drivers::Led &led,
+        SerialConsole &console,
         drivers::Button &button,
-        drivers::Uart &uart)
-        : led_(led), button_(button), uart_(uart) {}
+        StatusLedController &status_led,
+        RainbowAnimation &rainbow)
+        : console_(console),
+          button_(button),
+          status_led_(status_led),
+          rainbow_(rainbow),
+          double_press_(config::double_press_interval_ms)
+    {
+    }
 
     void initialize(uint32_t now_ms);
     void run_once(uint32_t now_ms);
 
 private:
-    void process(Command command, uint32_t now_ms);
-    void print_help() const;
-    void report_led_state(const char *prefix) const;
-    void start_blink(uint32_t now_ms);
-    void update_blink(uint32_t now_ms);
-    void cancel_blink();
+    void process_command(Command command, uint32_t now_ms);
+    void process_button(uint32_t now_ms);
+    void report_status_led() const;
 
-    drivers::Led &led_;
+    SerialConsole &console_;
     drivers::Button &button_;
-    drivers::Uart &uart_;
-
-    uint32_t next_blink_transition_ms_ = 0U;
-    uint32_t blinks_remaining_ = 0U;
-    bool blinking_ = false;
-    bool blink_phase_on_ = false;
-
-    uint32_t press_count_ = 0;
-    uint32_t last_press_time_ms_ = 0;
+    StatusLedController &status_led_;
+    RainbowAnimation &rainbow_;
+    DoublePressDetector double_press_;
 };
 
-}
+} // namespace app

@@ -5,12 +5,27 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-file(GLOB_RECURSE FIRMWARE_SOURCES CONFIGURE_DEPENDS
-    app/*.cpp
-    bsp/*.cpp
-    drivers/*.cpp
-    platform/*.cpp
-    startup/*.cpp
+set(FIRMWARE_SOURCES
+    app/animations/rainbow_animation.cpp
+    app/animations/status_led_controller.cpp
+    app/application.cpp
+    app/commands/command_processor.cpp
+    app/commands/serial_console.cpp
+    app/main.cpp
+    bsp/board.cpp
+    devices/external_led_board.cpp
+    drivers/button/button.cpp
+    drivers/button/button_debouncer.cpp
+    drivers/gpio/gpio.cpp
+    drivers/i2c/i2c.cpp
+    drivers/led/led.cpp
+    drivers/led_controller/aw9523.cpp
+    drivers/led_controller/is31fl3218.cpp
+    drivers/uart/uart.cpp
+    platform/stm32f407/registers.cpp
+    platform/stm32f407/system.cpp
+    startup/startup.cpp
+    startup/vectors.cpp
 )
 
 add_executable(${PROJECT_NAME}.elf ${FIRMWARE_SOURCES})

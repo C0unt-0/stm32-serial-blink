@@ -1,54 +1,94 @@
 # STM32F407 layered bare-metal C++ firmware
 
-A reorganized C++17 bare-metal project for the STM32F407. It keeps board wiring, reusable drivers, MCU-specific register access, startup code, and application behavior in separate layers.
+A C++17 bare-metal STM32F407 project with a non-blocking rainbow animation, UART command console, button input, and a layered hardware/application structure.
 
 ## Project structure
 
 ```text
-app/                    Product behavior and UART command processing
-bsp/                    Board wiring and construction of board devices
-config/                 Compile-time firmware settings
-drivers/button/         Button device and testable debounce state machine
-drivers/gpio/           STM32 GPIO driver
-drivers/led/            Reusable active-high/active-low LED driver
-drivers/uart/           Polling UART driver
-platform/stm32f407/     Register maps, peripheral addresses, and SysTick time
-startup/                Reset handler and interrupt vector table
-linker/                 STM32F407 linker script
-tests/                  Hardware-independent host tests
-cmake/                  GNU Arm Embedded CMake toolchain
+app/
+    main.cpp                       Composition root only
+    application.*                 Event and feature coordination
+    animations/                   Timestamp-driven application behaviors
+    commands/                     Command catalog, parser, and serial console
+    input/                        Hardware-independent input state machines
+    time/                         Wraparound-safe time helpers
+bsp/                              Board object, wiring, and startup sequencing
+config/                           Compile-time firmware policy
+devices/                          Board-specific devices and logical frames
+drivers/                          Reusable peripheral and IC drivers
+platform/stm32f407/               MCU registers, peripherals, and SysTick time
+startup/                          Reset handler and interrupt vector table
+examples/legacy/                  Old experimental entry points, excluded from builds
+tests/                            Hardware-independent host tests
 ```
 
-## Hardware configuration
+## Runtime structure
 
-All board pin assignments live in `bsp/board_config.hpp`:
+`app/main.cpp` performs only composition and startup:
 
-- D4 LED: PC13, active-low
-- User button: PC15, active-low, no internal pull resistor
-- USART1 TX: PA9, alternate function 7
-- USART1 RX: PA10, alternate function 7
-- UART: 115200 baud, 8-N-1
+1. Initialize SysTick.
+2. Construct and initialize `bsp::Board`.
+3. Construct application modules from board devices.
+4. Call `Application::initialize()`.
+5. Repeatedly call `Application::run_once(now_ms)`.
 
-The PC15 input assumes the board supplies an external bias resistor. Change `user_button_pull` to `drivers::gpio::Pull::Up` when an internal pull-up is required.
+All ongoing behaviors are non-blocking state machines. The UART, button, status LED blink, and rainbow animation remain responsive in the same main loop.
+
+## Application modules
+
+- `SerialConsole` reads characters and prints help from one shared command catalog.
+- `StatusLedController` owns onboard LED on/off/toggle/blink behavior.
+- `RainbowAnimation` owns hue, breathing, frame timing, and animation state.
+- `DoublePressDetector` detects a second press without hardware dependencies.
+- `Application` routes commands and button events between these modules.
+
+## External LED layering
+
+```text
+RainbowAnimation
+    -> devices::ExternalLedBoard
+        -> drivers::Aw9523
+            -> drivers::I2c
+```
+
+`RainbowAnimation` creates a logical five-LED RGB frame. `ExternalLedBoard` owns the physical D1-D5 channel mapping. `Aw9523` owns IC register operations.
 
 ## Behavior
 
-- A debounced button press toggles the LED once.
-- Holding the button does not create repeated events.
-- UART reception is non-blocking.
-- LED blinking is a timestamp-driven state machine, so the button and UART remain responsive while blinking.
+The rainbow animation starts automatically after successful board initialization.
 
 UART commands:
 
-- `1`: LED on
-- `0`: LED off
-- `t`: toggle LED
-- `b`: blink LED five times
-- `?`: display help
+- `1`: status LED on
+- `0`: status LED off
+- `t`: toggle status LED
+- `b`: blink status LED without blocking
+- `r`: start or restart rainbow animation
+- `s`: stop rainbow animation and retain the current frame
+- `c`: clear external LEDs
+- `?`: display the generated command list
+
+Button behavior:
+
+- Single press: toggle the onboard status LED
+- Double press within the configured interval: start the rainbow animation
+
+## Hardware configuration
+
+Board wiring is centralized in `bsp/board_config.hpp`:
+
+- Onboard LED: PC13, active-low
+- User button: PC15, active-low
+- USART1 TX/RX: PA9/PA10, AF7
+- I2C2 SCL/SDA: PB10/PB11, AF4, open-drain
+- External LED controller reset: PA6, active-low
+- External LED controller address: owned by the AW9523 driver
+
+Timing, brightness, baud rate, debounce, and animation settings are in `config/firmware_config.hpp`.
 
 ## Build
 
-GNU Arm Embedded Toolchain:
+With GNU Arm Embedded Toolchain:
 
 ```sh
 make
@@ -68,18 +108,20 @@ Flash with OpenOCD and ST-Link:
 make flash
 ```
 
-### Interrupt-handler declarations
-
-The weak interrupt aliases and `Default_Handler` use the same `noexcept` function signature. This is required by newer GNU Arm Embedded compilers when `-Wmissing-attributes` is enabled through `-Wall` and warnings are treated as errors. Do not add `noreturn` only to `Default_Handler`; doing so makes its weak aliases less restrictive and breaks strict GCC builds.
+The production source lists are explicit. Files under `examples/` are not accidentally linked into the firmware.
 
 ## Host tests
-
-The debounce logic and command parser have no hardware dependencies:
 
 ```sh
 make test
 ```
 
+The tests cover:
+
+- button debounce behavior,
+- UART command parsing, including rainbow commands,
+- double-press detection.
+
 ## Runtime policy
 
-The firmware uses no heap allocation, exceptions, RTTI, hosted runtime, or standard-library containers. The reset handler initializes `.data` and `.bss`; the vector table includes all STM32F407 interrupt slots and routes SysTick to the millisecond time service.
+The firmware uses no heap allocation, exceptions, RTTI, hosted runtime, or standard-library containers. Startup initializes `.data` and `.bss`; SysTick provides the millisecond time service.

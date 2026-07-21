@@ -37,15 +37,13 @@ namespace drivers {
 
 bool I2c::initialize()
 {
-    scl_.configure_alternate(
-        alternate_function_,
-        gpio::OutputType::OpenDrain);
-
-    sda_.configure_alternate(
-        alternate_function_,
-        gpio::OutputType::OpenDrain);
-
-    if (peripheral_clock_hz_ == 0U ||
+    if (hardware_.registers == nullptr ||
+        hardware_.clock_enable_register == nullptr ||
+        hardware_.reset_register == nullptr ||
+        hardware_.clock_enable_mask == 0U ||
+        hardware_.reset_mask == 0U ||
+        alternate_function_ > 15U ||
+        peripheral_clock_hz_ == 0U ||
         bus_frequency_hz_ == 0U ||
         bus_frequency_hz_ > 100'000U ||
         timeout_iterations_ == 0U ||
@@ -75,6 +73,14 @@ bool I2c::initialize()
     if (trise > trise_mask) {
         return false;
     }
+
+    scl_.configure_alternate(
+        alternate_function_,
+        gpio::OutputType::OpenDrain);
+
+    sda_.configure_alternate(
+        alternate_function_,
+        gpio::OutputType::OpenDrain);
 
     *hardware_.clock_enable_register |=
         hardware_.clock_enable_mask;

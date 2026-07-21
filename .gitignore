@@ -6,3 +6,7 @@ build-*/
 *.map
 *.o
 *.d
+
+.vscode/*.log
+.vscode/configurationCache.log
+compile_commands.json

@@ -3,50 +3,118 @@
 ## Dependency direction
 
 ```text
-startup ───────────────> main
-                           │
-                           ├──> platform/stm32f407
-                           ├──> bsp ───────> platform/stm32f407
-                           │      └────────> drivers
-                           └──> app ───────> drivers
-                                  └────────> config
-
-drivers/gpio ──────────> platform/stm32f407/registers
-drivers/uart ──────────> platform/stm32f407/registers
-drivers/button ────────> drivers/gpio
-drivers/led ───────────> drivers/gpio
+startup -> app/main.cpp
+              |
+              +-> bsp::Board
+              |      +-> devices::ExternalLedBoard
+              |      |      +-> drivers::Aw9523
+              |      |             +-> drivers::I2c
+              |      +-> drivers::Led / Button / Uart / Gpio
+              |      +-> platform/stm32f407
+              |
+              +-> app::Application
+                     +-> SerialConsole
+                     +-> StatusLedController
+                     +-> RainbowAnimation
+                     +-> DoublePressDetector
 ```
 
-## Layer rules
+Dependencies point toward lower-level capabilities. Drivers do not depend on application behavior.
 
-### Application
+## Layer responsibilities
 
-`app/` owns firmware behavior. It receives time as a value and devices as references. It contains no GPIO pin numbers, peripheral base addresses, or RCC bit positions.
+### `app/main.cpp`: composition root
 
-### Board support package
+The production `main()` constructs the object graph, performs board initialization, and repeatedly supplies the current timestamp to the application. It contains no animation math, command switch, LED channel mapping, I2C probing, or frame delay loop.
 
-`bsp/` is the only layer that knows the board wiring. `board_config.hpp` holds the PC13, PC15, PA9, and PA10 assignments. `board.cpp` connects those assignments to reusable driver objects.
+### `app/application.*`: coordinator
 
-### Drivers
+`Application` routes external events:
 
-`drivers/` owns device and peripheral behavior. Constructors receive pins, polarity, pull configuration, debounce intervals, and peripheral descriptions rather than relying on hidden global configuration.
+- parsed serial commands,
+- debounced button press events,
+- periodic module updates,
+- user-facing status messages.
 
-The debounce state machine is separated from GPIO access so it can run in host tests.
+It does not contain UART parsing, blink phase state, rainbow color math, or board wiring.
 
-### Platform
+### `app/animations/`
 
-`platform/stm32f407/` owns MCU-specific addresses, register layouts, RCC access, USART1 discovery, and the SysTick millisecond counter.
+Active behaviors use the same non-blocking lifecycle shape:
 
-### Startup
+```text
+start(now) / direct control operation
+update(now)
+stop or cancel
+```
 
-`startup/startup.cpp` initializes `.bss` and `.data`, then enters `main`. `startup/vectors.cpp` contains the complete STM32F407 vector table and weak default handlers. SysTick is the only enabled interrupt in this firmware.
+`RainbowAnimation` calculates logical RGB frames and schedules them with timestamps. `StatusLedController` schedules onboard LED blink transitions. Neither waits in a runtime delay loop.
 
-### Configuration
+### `app/commands/`
 
-`config/firmware_config.hpp` contains compile-time firmware policy such as clock frequency, UART baud rate, debounce duration, and blink timing.
+`command_catalog.hpp` is the single source of truth for command keys, command values, and help descriptions. The parser and help output both consume this catalog.
 
-## Main as composition root
+`SerialConsole` adapts the concrete UART into application-level command polling and text output.
 
-`app/main.cpp` creates the LED, button, and UART through the BSP, injects them into `Application`, and repeatedly passes the current millisecond timestamp to `run_once()`.
+### `app/input/`
 
-No device is accessed through a static singleton. This keeps ownership visible and makes future replacement of a driver or board configuration localized.
+`DoublePressDetector` contains only timestamp state. It has no GPIO dependency and is host-testable.
+
+### `bsp/`
+
+`bsp::Board` owns the concrete board devices and their dependency order. It is the only aggregate that knows which devices exist together on this board.
+
+`Board::initialize()` performs startup-only hardware sequencing:
+
+1. initialize UART, onboard LED, and button,
+2. assert and release the external controller reset line,
+3. initialize I2C,
+4. initialize the external LED device.
+
+`board_config.hpp` owns all pin assignments and electrical polarity.
+
+### `devices/`
+
+A device combines one or more generic drivers into a board/product-level concept.
+
+`ExternalLedBoard` owns:
+
+- the D1-D5 logical LED identifiers,
+- the mapping from each RGB component to AW9523 channels,
+- logical frame presentation through `show(frame)`.
+
+This prevents the animation from depending on physical channel numbers.
+
+### `drivers/`
+
+Drivers own peripheral or IC behavior:
+
+- GPIO, UART, I2C,
+- onboard LED and button wrappers,
+- AW9523 and IS31FL3218 register protocols.
+
+The AW9523 driver owns its I2C address and probing behavior. The application does not probe device addresses directly.
+
+### `platform/stm32f407/`
+
+The platform layer owns STM32F407 register layouts, peripheral descriptions, RCC register addresses, and the SysTick millisecond counter.
+
+### `config/`
+
+`firmware_config.hpp` contains product policy rather than wiring:
+
+- clock and baud settings,
+- debounce and double-press intervals,
+- blink timing,
+- rainbow brightness and frame period,
+- reset and I2C timeouts.
+
+## Initialization versus runtime
+
+Blocking waits are restricted to the startup reset sequence in `bsp::Board::initialize()`. Runtime features are timestamp-driven.
+
+Hardware configuration is validated before I2C pin and peripheral side effects. Initialization functions report failure where hardware discovery or configuration can fail.
+
+## Build structure
+
+The Makefile and CMake project list production sources explicitly. Experimental mains are stored under `examples/legacy/` and are not part of firmware builds.

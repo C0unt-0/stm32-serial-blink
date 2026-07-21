@@ -18,7 +18,7 @@
       "preLaunchTask": "build",
       "runToEntryPoint": "main",
 
-      "svdFile": "Keil::STM32F4xx_DFP@3.1.1",
+      "svdFile": "${workspaceFolder}/svd/STM32F407.svd",
       "deviceName": "STM32F407VETx",
       "showDevDebugOutput": "none",
 

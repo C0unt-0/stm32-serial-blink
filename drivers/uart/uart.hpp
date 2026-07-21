@@ -21,7 +21,7 @@ public:
           alternate_function_(alternate_function),
           baud_rate_register_(baud_rate_register) {}
 
-    void initialize();
+    bool initialize();
     bool try_read(char &character) const;
     void write(char character) const;
     void write(const char *text) const;

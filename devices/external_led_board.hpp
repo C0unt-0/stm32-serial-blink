@@ -1,10 +1,11 @@
 #pragma once
 
+#include "devices/rgb.hpp"
 #include "drivers/led_controller/aw9523.hpp"
 
 #include <stdint.h>
 
-namespace drivers {
+namespace devices {
 
 enum class ExternalLed : uint8_t {
     D1,
@@ -14,9 +15,15 @@ enum class ExternalLed : uint8_t {
     D5
 };
 
+struct ExternalLedFrame {
+    static constexpr uint8_t led_count = 5U;
+
+    Rgb leds[led_count];
+};
+
 class ExternalLedBoard final {
 public:
-    explicit constexpr ExternalLedBoard(Aw9523 &controller)
+    explicit constexpr ExternalLedBoard(drivers::Aw9523 &controller)
         : controller_(controller)
     {
     }
@@ -29,6 +36,7 @@ public:
         uint8_t green,
         uint8_t blue);
 
+    bool show(const ExternalLedFrame &frame);
     bool off(ExternalLed led);
     bool clear_all();
 
@@ -40,8 +48,9 @@ private:
     };
 
     static Channels channels_for(ExternalLed led);
+    static ExternalLed led_for_index(uint8_t index);
 
-    Aw9523 &controller_;
+    drivers::Aw9523 &controller_;
 };
 
-} // namespace drivers
+} // namespace devices
